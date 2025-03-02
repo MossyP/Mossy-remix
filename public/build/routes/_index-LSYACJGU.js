@@ -33,7 +33,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\components\\layout\\Header.tsx"
   );
-  import.meta.hot.lastModified = "1740888154500.193";
+  import.meta.hot.lastModified = "1740890863769.7175";
 }
 function Header() {
   _s();
@@ -128,7 +128,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\components\\sections\\Home.tsx"
   );
-  import.meta.hot.lastModified = "1740888154501.2212";
+  import.meta.hot.lastModified = "1740890863770.2317";
 }
 function Home() {
   const handleClick = (e, href) => {
@@ -196,7 +196,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\components\\sections\\About.tsx"
   );
-  import.meta.hot.lastModified = "1740888154500.193";
+  import.meta.hot.lastModified = "1740890863769.7175";
 }
 function About() {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: "min-h-screen flex items-center -mt-16", children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { className: "max-w-7xl mx-auto px-4 w-full", children: [
@@ -329,7 +329,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\components\\sections\\Works.tsx"
   );
-  import.meta.hot.lastModified = "1740889689680.2485";
+  import.meta.hot.lastModified = "1740891701728.153";
 }
 var WORKS_DATA = [
   {
@@ -540,7 +540,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\components\\sections\\Contact.tsx"
   );
-  import.meta.hot.lastModified = "1740888154500.7073";
+  import.meta.hot.lastModified = "1740890863770.2317";
 }
 function Contact() {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("div", { className: "h-screen flex items-center relative", children: /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("div", { className: "max-w-7xl mx-auto px-4 w-full", children: [
@@ -657,7 +657,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\routes\\_index.tsx"
   );
-  import.meta.hot.lastModified = "1740889835395.3032";
+  import.meta.hot.lastModified = "1740891701730.213";
 }
 var meta = () => {
   return [{
@@ -722,4 +722,4 @@ export {
   Index as default,
   meta
 };
-//# sourceMappingURL=/build/routes/_index-RZIQ7Y5L.js.map
+//# sourceMappingURL=/build/routes/_index-LSYACJGU.js.map
