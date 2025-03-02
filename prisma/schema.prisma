@@ -1,18 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model Work {
   id          String   @id @default(cuid())
   title       String
-  category    String
+  description String?
   thumbnail   String
-  description String
+  videoUrl    Json?    // { type: 'youtube' | 'niconico', id: string }
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
