@@ -1,9 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Header } from "~/components/layout/Header";
-import { Home } from "~/components/sections/Home";
-import { About } from "~/components/sections/About";
-import { Works } from "~/components/sections/Works";
-import { Contact } from "~/components/sections/Contact";
+import { Home } from "./home";
+import { About } from "./about";
+import { Works } from "./works";
+import { Contact } from "./contact";
 export const meta: MetaFunction = () => {
   return [
     { title: "Mossy Portfolio" },
