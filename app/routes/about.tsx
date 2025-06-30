@@ -38,11 +38,11 @@ export function About() {
     `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[idx]}s`;
 
   return (
-    <div ref={rootRef} className="min-h-screen flex items-center -mt-16">
-      <div className="max-w-7xl mx-auto px-4 w-full py-8 md:py-0">
+    <div ref={rootRef} className="flex items-center -mt-8 sm:-mt-12 md:-mt-16 overflow-hidden py-8 sm:py-16 md:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full">
         {/* タイトル */}
         <h2
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 sm:mb-12 lg:mb-16"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 md:mb-12 lg:mb-16"
           style={{
             opacity: show ? 1 : 0,
             transform: show ? "translateX(0)" : "translateX(-60px)",
@@ -53,7 +53,7 @@ export function About() {
         </h2>
         {/* 内容 */}
         <div
-          className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0"
+          className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 md:gap-0"
         >
           {/* アイコン */}
           <div
@@ -70,30 +70,30 @@ export function About() {
               viewBox="0 0 320 320"
               style={{ color: isDark ? "#efefef" : "#000000" }}
               xmlns="http://www.w3.org/2000/svg"
-              className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain"
+              className="w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 xl:w-64 xl:h-64 2xl:w-80 2xl:h-80 object-contain"
             >
               <use href="/MossyIcons.svg#main" />
             </svg>
           </div>
           {/* テキストブロック */}
-          <div className="w-full md:w-1/2 space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12 text-center md:text-left">
+          <div className="w-full md:w-1/2 space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12 text-center md:text-left">
             {/* 名前＋SNS */}
             <div
-              className="flex items-center justify-center md:justify-start gap-4"
+              className="flex items-center justify-center md:justify-start gap-3 sm:gap-4"
               style={{
                 opacity: show ? 1 : 0,
                 transform: show ? "translateX(0)" : "translateX(-60px)",
                 transition: getTransition(2)
               }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">Mossy</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">Mossy</h2>
               <a
                 href="https://twitter.com/Mossy_tw"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#DA5A5A]"
+                className="hover:text-[#DA5A5A] transition-colors"
               >
-                <img src="/twitter.svg" alt="Twitter" className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12" />
+                <img src="/twitter.svg" alt="Twitter" className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12" />
               </a>
             </div>
             {/* 肩書き */}
@@ -104,7 +104,7 @@ export function About() {
                 transition: getTransition(3)
               }}
             >
-              <h3 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold mb-2">音楽、映像クリエイター</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-1 sm:mb-2">音楽、映像クリエイター</h3>
             </div>
             {/* スキルリスト */}
             <div
@@ -114,8 +114,8 @@ export function About() {
                 transition: getTransition(4)
               }}
             >
-              <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">スキル:</h3>
-              <ul className="space-y-1 sm:space-y-2 text-base sm:text-lg md:text-xl">
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 md:mb-4">スキル:</h3>
+              <ul className="space-y-1 sm:space-y-2 text-sm sm:text-base md:text-lg lg:text-xl">
                 <li>作曲/編曲</li>
                 <li>映像制作</li>
                 <li>3DCGモデリング</li>
