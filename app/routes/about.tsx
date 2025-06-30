@@ -21,6 +21,9 @@ export function About() {
 
   // アニメーションディレイ設定
   const delays = [0, 0.12, 0.24, 0.36, 0.48];
+  const duration = "0.8s";
+  const getTransition = (idx: number) =>
+    `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[idx]}s`;
 
   return (
     <div ref={rootRef} className="min-h-screen flex items-center -mt-16">
@@ -31,7 +34,7 @@ export function About() {
           style={{
             opacity: show ? 1 : 0,
             transform: show ? "translateX(0)" : "translateX(-60px)",
-            transition: `all 0.5s cubic-bezier(.16,1,.3,1) ${delays[0]}s`
+            transition: getTransition(0)
           }}
         >
           About
@@ -46,7 +49,7 @@ export function About() {
             style={{
               opacity: show ? 1 : 0,
               transform: show ? "translateX(0)" : "translateX(-60px)",
-              transition: `all 0.5s cubic-bezier(.16,1,.3,1) ${delays[1]}s`
+              transition: getTransition(1)
             }}
           >
             <img
@@ -63,7 +66,7 @@ export function About() {
               style={{
                 opacity: show ? 1 : 0,
                 transform: show ? "translateX(0)" : "translateX(-60px)",
-                transition: `all 0.5s cubic-bezier(.16,1,.3,1) ${delays[2]}s`
+                transition: getTransition(2)
               }}
             >
               <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">Mossy</h2>
@@ -81,7 +84,7 @@ export function About() {
               style={{
                 opacity: show ? 1 : 0,
                 transform: show ? "translateX(0)" : "translateX(-60px)",
-                transition: `all 0.5s cubic-bezier(.16,1,.3,1) ${delays[3]}s`
+                transition: getTransition(3)
               }}
             >
               <h3 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold mb-2">音楽、映像クリエイター</h3>
@@ -91,7 +94,7 @@ export function About() {
               style={{
                 opacity: show ? 1 : 0,
                 transform: show ? "translateX(0)" : "translateX(-60px)",
-                transition: `all 0.5s cubic-bezier(.16,1,.3,1) ${delays[4]}s`
+                transition: getTransition(4)
               }}
             >
               <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">スキル:</h3>

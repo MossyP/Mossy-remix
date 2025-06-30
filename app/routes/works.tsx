@@ -15,17 +15,69 @@ type Work = {
 };
 
 const WORKS_DATA: Work[] = [
+    // 3DCG
     {
         id: "1",
-        title: "作品1",
+        title: "3DCG作品A",
         category: "3DCG",
         thumbnail: "/work1.jpg",
-        description: "3DCGの作品説明",
-        youtubeUrl: "https://www.youtube.com/embed/xxxxx",
+        description: "3DCGの作品Aの説明ダミー。",
+        youtubeUrl: "https://www.youtube.com/embed/xxxxx1",
         date: "2024.01",
-        url: "https://example.com",
+        url: "https://example.com/3dcg-a",
     },
-    // 他の作品データも追加
+    {
+        id: "2",
+        title: "3DCG作品B",
+        category: "3DCG",
+        thumbnail: "/work2.jpg",
+        description: "3DCGの作品Bの説明ダミー。",
+        youtubeUrl: "https://www.youtube.com/embed/xxxxx2",
+        date: "2024.02",
+        url: "https://example.com/3dcg-b",
+    },
+    // Music
+    {
+        id: "3",
+        title: "Music作品A",
+        category: "Music",
+        thumbnail: "/work3.jpg",
+        description: "Musicの作品Aの説明ダミー。",
+        youtubeUrl: "https://www.youtube.com/embed/xxxxx3",
+        date: "2024.03",
+        url: "https://example.com/music-a",
+    },
+    {
+        id: "4",
+        title: "Music作品B",
+        category: "Music",
+        thumbnail: "/work4.jpg",
+        description: "Musicの作品Bの説明ダミー。",
+        youtubeUrl: "https://www.youtube.com/embed/xxxxx4",
+        date: "2024.04",
+        url: "https://example.com/music-b",
+    },
+    // MV
+    {
+        id: "5",
+        title: "MV作品A",
+        category: "MV",
+        thumbnail: "/work5.jpg",
+        description: "MVの作品Aの説明ダミー。",
+        youtubeUrl: "https://www.youtube.com/embed/xxxxx5",
+        date: "2024.05",
+        url: "https://example.com/mv-a",
+    },
+    {
+        id: "6",
+        title: "MV作品B",
+        category: "MV",
+        thumbnail: "/work6.jpg",
+        description: "MVの作品Bの説明ダミー。",
+        youtubeUrl: "https://www.youtube.com/embed/xxxxx6",
+        date: "2024.06",
+        url: "https://example.com/mv-b",
+    },
 ];
 
 export function Works() {
@@ -49,17 +101,37 @@ export function Works() {
         return () => observer.disconnect();
     }, []);
 
+    // カテゴリ切り替え時のグリッドアニメーション
+    const [gridKey, setGridKey] = useState(0);
+    useEffect(() => {
+        setGridKey((k) => k + 1);
+        // カテゴリ切り替え時にグリッド全体を一度非表示→再表示
+        setShow(false);
+        const timer = setTimeout(() => setShow(true), 10);
+        return () => clearTimeout(timer);
+    }, [selectedCategory]);
+
     const filteredWorks = WORKS_DATA.filter(
         (work) => selectedCategory === "All" || work.category === selectedCategory
     );
+    const maxGridItems = WORKS_DATA.length;
+    const emptyCount = Math.max(0, maxGridItems - filteredWorks.length);
 
     // アニメーションディレイ
     const delays = [0, 0.18, 0.36, 0.54, 0.72, 0.9, 1.08, 1.26, 1.44];
     const duration = "0.8s";
 
+    // グリッド全体のアニメーション
+    const gridAnimStyle = {
+        opacity: show ? 1 : 0,
+        transform: show ? "translateX(0)" : "translateX(60px)",
+        filter: show ? "blur(0)" : "blur(16px)",
+        transition: "all 0.4s cubic-bezier(.16,1,.3,1)"
+    };
+
     return (
         <>
-            <div ref={rootRef} className="h-screen flex items-center -mt-16">
+            <div ref={rootRef} className="min-h-screen flex items-center pt-32">
                 <div className="max-w-7xl mx-auto px-4 w-full mb-32">
                     {/* タイトル */}
                     <h2
@@ -88,17 +160,17 @@ export function Works() {
                                     key={category}
                                     onClick={() => setSelectedCategory(category)}
                                     className={`
-                                                px-6 py-2 rounded-full border-2 border-black 
-                                                transition-all duration-300
-                                                ${selectedCategory === category
+                                        px-6 py-2 rounded-full border-2 border-black
+                                        transition-all duration-150
+                                        ${selectedCategory === category
                                             ? "bg-black text-white"
                                             : "hover:bg-black hover:text-white"
                                         }
-                            `}
+                                    `}
                                     style={{
                                         opacity: show ? 1 : 0,
                                         transform: show ? "translateX(0)" : "translateX(-60px)",
-                                        transition: `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[2] + idx * 0.08}s`
+                                        transition: `all 0.15s cubic-bezier(.16,1,.3,1) 0s`
                                     }}
                                 >
                                     {category}
@@ -108,7 +180,7 @@ export function Works() {
                     </div>
 
                     {/* 作品グリッド */}
-                    <div className="grid grid-cols-3 gap-8">
+                    <div key={gridKey} className="grid grid-cols-3 gap-8" style={gridAnimStyle}>
                         {filteredWorks.map((work, i) => (
                             <div
                                 key={work.id}
@@ -125,7 +197,8 @@ export function Works() {
                                 style={{
                                     opacity: show ? 1 : 0,
                                     transform: show ? "translateX(0)" : "translateX(-60px)",
-                                    transition: `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[3] + i * 0.12}s`
+                                    filter: show ? "blur(0)" : "blur(8px)",
+                                    transition: `all 0.5s cubic-bezier(.16,1,.3,1) ${i * 0.08}s`
                                 }}
                             >
                                 <img
@@ -136,6 +209,13 @@ export function Works() {
                                 <h3 className="text-xl font-bold mb-2">{work.title}</h3>
                                 <p className="text-gray-600 line-clamp-2">{work.description}</p>
                             </div>
+                        ))}
+                        {/* 空きマスを透明なダミーで埋める */}
+                        {Array.from({ length: emptyCount }).map((_, i) => (
+                            <div
+                                key={`empty-${i}`}
+                                className="invisible p-4 rounded-lg"
+                            />
                         ))}
                     </div>
                 </div>
