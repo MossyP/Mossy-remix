@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type WorkCategory = "3DCG" | "Music" | "MV" | "All";
 
@@ -32,19 +32,58 @@ export function Works() {
     const [selectedCategory, setSelectedCategory] = useState<WorkCategory>("All");
     const [selectedWork, setSelectedWork] = useState<Work | null>(null);
 
+    // アニメーション用
+    const [show, setShow] = useState(false);
+    const rootRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const observer = new window.IntersectionObserver(
+            ([entry]) => {
+                setShow(entry.isIntersecting);
+            },
+            {
+                threshold: 0,
+                rootMargin: "-40% 0px -40% 0px"
+            }
+        );
+        if (rootRef.current) observer.observe(rootRef.current);
+        return () => observer.disconnect();
+    }, []);
+
     const filteredWorks = WORKS_DATA.filter(
         (work) => selectedCategory === "All" || work.category === selectedCategory
     );
 
+    // アニメーションディレイ
+    const delays = [0, 0.18, 0.36, 0.54, 0.72, 0.9, 1.08, 1.26, 1.44];
+    const duration = "0.8s";
+
     return (
         <>
-            <div className="h-screen flex items-center -mt-16">
+            <div ref={rootRef} className="h-screen flex items-center -mt-16">
                 <div className="max-w-7xl mx-auto px-4 w-full mb-32">
-                    <h2 className="text-7xl font-bold mb-16">Works</h2>
-                    <div className="flex items-center gap-8 mb-12">
+                    {/* タイトル */}
+                    <h2
+                        className="text-7xl font-bold mb-16"
+                        style={{
+                            opacity: show ? 1 : 0,
+                            transform: show ? "translateX(0)" : "translateX(-60px)",
+                            transition: `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[0]}s`
+                        }}
+                    >
+                        Works
+                    </h2>
+                    {/* カテゴリ */}
+                    <div
+                        className="flex items-center gap-8 mb-12"
+                        style={{
+                            opacity: show ? 1 : 0,
+                            transform: show ? "translateX(0)" : "translateX(-60px)",
+                            transition: `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[1]}s`
+                        }}
+                    >
                         <h2 className="text-4xl font-bold">Category :</h2>
                         <div className="flex gap-4">
-                            {(["All", "3DCG", "Music", "MV"] as const).map((category) => (
+                            {(["All", "3DCG", "Music", "MV"] as const).map((category, idx) => (
                                 <button
                                     key={category}
                                     onClick={() => setSelectedCategory(category)}
@@ -56,6 +95,11 @@ export function Works() {
                                             : "hover:bg-black hover:text-white"
                                         }
                             `}
+                                    style={{
+                                        opacity: show ? 1 : 0,
+                                        transform: show ? "translateX(0)" : "translateX(-60px)",
+                                        transition: `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[2] + idx * 0.08}s`
+                                    }}
                                 >
                                     {category}
                                 </button>
@@ -63,8 +107,9 @@ export function Works() {
                         </div>
                     </div>
 
+                    {/* 作品グリッド */}
                     <div className="grid grid-cols-3 gap-8">
-                        {filteredWorks.map((work) => (
+                        {filteredWorks.map((work, i) => (
                             <div
                                 key={work.id}
                                 role="button"
@@ -76,6 +121,11 @@ export function Works() {
                                         e.preventDefault();
                                         setSelectedWork(work);
                                     }
+                                }}
+                                style={{
+                                    opacity: show ? 1 : 0,
+                                    transform: show ? "translateX(0)" : "translateX(-60px)",
+                                    transition: `all ${duration} cubic-bezier(.16,1,.3,1) ${delays[3] + i * 0.12}s`
                                 }}
                             >
                                 <img

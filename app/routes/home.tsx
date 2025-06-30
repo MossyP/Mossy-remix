@@ -46,7 +46,7 @@ export function Home() {
                             opacity: showTitle ? 1 : 0,
                             transform: showTitle
                                 ? "translateY(0)"
-                                : "translateY(60px)",
+                                : "translateY(-60px)",
                             transition:
                                 "all 0.5s cubic-bezier(.16,1,.3,1) " +
                                 (showTitle ? i * 0.06 : 0) +
