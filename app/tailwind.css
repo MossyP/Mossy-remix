@@ -11,4 +11,26 @@
   body {
     @apply bg-[#D1D7DA];
   }
+
+  
+}
+
+body[data-theme="dark"] {
+  background: #1e2c39 !important;
+  color: #efefef !important;
+}
+body[data-theme="dark"] .noise-bg {
+  filter: contrast(1.2) brightness(1.1) grayscale(0.2);
+  opacity: 0.28;
+}
+body[data-theme="light"] .noise-bg {
+  filter: none;
+  opacity: 0.12;
+}
+
+body[data-theme="dark"] .darkmode-header {
+  background: #1e2c39 !important;
+}
+body[data-theme="light"] .darkmode-header {
+  background: #D1D7DA !important;
 }

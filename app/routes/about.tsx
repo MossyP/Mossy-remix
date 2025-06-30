@@ -5,6 +5,18 @@ export function About() {
   const [show, setShow] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
+  // ダークモード判定をリアルタイムで反映
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    const updateTheme = () => {
+      setIsDark(document.body.dataset.theme === 'dark');
+    };
+    updateTheme();
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const observer = new window.IntersectionObserver(
       ([entry]) => {
@@ -52,11 +64,16 @@ export function About() {
               transition: getTransition(1)
             }}
           >
-            <img
-              src="/icon_trans.png"
-              alt="Mossy Icon"
+            <svg
+              width="320"
+              height="320"
+              viewBox="0 0 320 320"
+              style={{ color: isDark ? "#efefef" : "#000000" }}
+              xmlns="http://www.w3.org/2000/svg"
               className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain"
-            />
+            >
+              <use href="/MossyIcons.svg#main" />
+            </svg>
           </div>
           {/* テキストブロック */}
           <div className="w-full md:w-1/2 space-y-6 sm:space-y-8 md:space-y-10 lg:space-y-12 text-center md:text-left">

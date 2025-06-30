@@ -129,6 +129,18 @@ export function Works() {
         transition: "all 0.4s cubic-bezier(.16,1,.3,1)"
     };
 
+    // ダークモード判定をリアルタイムで反映
+    const [isDark, setIsDark] = useState(false);
+    useEffect(() => {
+        const updateTheme = () => {
+            setIsDark(document.body.dataset.theme === 'dark');
+        };
+        updateTheme();
+        const observer = new MutationObserver(updateTheme);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['data-theme'] });
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <>
             <div ref={rootRef} className="min-h-screen flex items-center pt-32">
@@ -186,7 +198,7 @@ export function Works() {
                                 key={work.id}
                                 role="button"
                                 tabIndex={0}
-                                className="bg-white p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+                                className={`p-4 rounded-lg cursor-pointer transition-shadow ${isDark ? 'bg-[#253447] text-[#efefef] shadow-lg hover:shadow-xl' : 'bg-white shadow-md hover:shadow-lg'}`}
                                 onClick={() => setSelectedWork(work)}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' || e.key === ' ') {
@@ -205,6 +217,7 @@ export function Works() {
                                     src={work.thumbnail}
                                     alt={work.title}
                                     className="w-full h-48 object-cover rounded-md mb-4"
+                                    style={{ background: isDark ? '#1e2c39' : '#fff' }}
                                 />
                                 <h3 className="text-xl font-bold mb-2">{work.title}</h3>
                                 <p className="text-gray-600 line-clamp-2">{work.description}</p>
@@ -236,7 +249,7 @@ export function Works() {
 
                     {/* モーダルコンテンツ */}
                     <div
-                        className="relative bg-white rounded-lg p-8 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto animate-slideUp"
+                        className={`relative rounded-lg p-8 max-w-6xl w-full mx-4 max-h-[90vh] overflow-y-auto animate-slideUp ${isDark ? 'bg-[#253447] text-[#efefef]' : 'bg-white'}`}
                     >
                         <div className="flex gap-8">
                             {/* 左側：メディア */}

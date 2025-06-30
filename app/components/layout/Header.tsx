@@ -30,9 +30,8 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 h-16 bg-[#D1D7DA] z-50 transition-all duration-300 ${
-        isVisible ? "shadow-md translate-y-0" : "-translate-y-full"
-      }`}
+      className={`fixed top-0 left-0 right-0 h-16 z-50 transition-all duration-300 ${isVisible ? "shadow-md translate-y-0" : "-translate-y-full"
+        } bg-[#D1D7DA] darkmode-header`}
     >
       <div className="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
         <div>
