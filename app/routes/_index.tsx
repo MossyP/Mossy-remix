@@ -4,12 +4,11 @@ import { Home } from "./home";
 import { About } from "./about";
 import { Works } from "./works";
 import { Contact } from "./contact";
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Mossy Portfolio" },
-    { name: "description", content: "Mossyのポートフォリオサイトです。" },
-  ];
-};
+
+export const meta: MetaFunction = () => [
+  { title: "Mossy Portfolio" },
+  { name: "description", content: "Mossyのポートフォリオサイトです。" },
+];
 
 export const NAVIGATION_ITEMS = [
   { href: "#home", label: "Home", Component: Home },
