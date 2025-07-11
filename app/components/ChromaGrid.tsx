@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
 export interface ChromaItem {
+  id: string;
   image: string;
   title: string;
   subtitle: string;
@@ -19,6 +20,7 @@ export interface ChromaGridProps {
   damping?: number;
   fadeOut?: number;
   ease?: string;
+  onItemClick?: (item: ChromaItem) => void;
 }
 
 type SetterFn = (v: number | string) => void;
@@ -30,6 +32,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
   damping = 0.45,
   fadeOut = 0.6,
   ease = "power3.out",
+  onItemClick,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const fadeRef = useRef<HTMLDivElement>(null);
@@ -39,6 +42,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
 
   const demo: ChromaItem[] = [
     {
+      id: "demo-1",
       image: "https://i.pravatar.cc/300?img=8",
       title: "Alex Rivera",
       subtitle: "Full Stack Developer",
@@ -48,6 +52,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
       url: "https://github.com/",
     },
     {
+      id: "demo-2",
       image: "https://i.pravatar.cc/300?img=11",
       title: "Jordan Chen",
       subtitle: "DevOps Engineer",
@@ -57,6 +62,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
       url: "https://linkedin.com/in/",
     },
     {
+      id: "demo-3",
       image: "https://i.pravatar.cc/300?img=3",
       title: "Morgan Blake",
       subtitle: "UI/UX Designer",
@@ -66,6 +72,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
       url: "https://dribbble.com/",
     },
     {
+      id: "demo-4",
       image: "https://i.pravatar.cc/300?img=16",
       title: "Casey Park",
       subtitle: "Data Scientist",
@@ -75,6 +82,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
       url: "https://kaggle.com/",
     },
     {
+      id: "demo-5",
       image: "https://i.pravatar.cc/300?img=25",
       title: "Sam Kim",
       subtitle: "Mobile Developer",
@@ -84,6 +92,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
       url: "https://github.com/",
     },
     {
+      id: "demo-6",
       image: "https://i.pravatar.cc/300?img=60",
       title: "Tyler Rodriguez",
       subtitle: "Cloud Architect",
@@ -135,8 +144,8 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
     });
   };
 
-  const handleCardClick = (url?: string) => {
-    if (url) window.open(url, "_blank", "noopener,noreferrer");
+  const handleCardClick = (item: ChromaItem) => {
+    onItemClick?.(item);
   };
 
   const handleCardMove: React.MouseEventHandler<HTMLElement> = (e) => {
@@ -160,11 +169,11 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
         } as React.CSSProperties
       }
     >
-      {data.map((c, i) => (
+      {data.map((c) => (
         <article
-          key={i}
+          key={c.id}
           onMouseMove={handleCardMove}
-          onClick={() => handleCardClick(c.url)}
+          onClick={() => handleCardClick(c)}
           className="group relative flex flex-col w-[300px] rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer hover:border-[var(--card-border)]"
           style={
             {
