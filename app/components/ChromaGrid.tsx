@@ -22,6 +22,7 @@ export interface ChromaGridProps {
   ease?: string;
   onItemClick?: (item: ChromaItem) => void;
   isDark?: boolean;
+  highlightTrigger?: number;
 }
 
 type SetterFn = (v: number | string) => void;
@@ -75,8 +76,8 @@ const GridItem = ({
       ref={cardRef}
       onMouseMove={handleCardMove}
       onClick={() => onItemClick(item)}
-      // スマホではデフォルトで白黒、is-visibleクラスが付くとカラーになる
-      className="group relative flex flex-col w-[350px] rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer hover:border-[var(--card-border)] grayscale md:grayscale-0 [&.is-visible]:grayscale-0"
+      // is-highlightedクラスで一時的に色付け
+      className="group relative flex flex-col w-[350px] rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer hover:border-[var(--card-border)] grayscale md:grayscale-0 [&.is-visible]:grayscale-0 [&.is-highlighted]:grayscale-0"
       style={
         {
           "--card-border": item.borderColor || "transparent",
@@ -118,6 +119,7 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
   ease = "power3.out",
   onItemClick = () => {},
   isDark = false,
+  highlightTrigger = 0,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const fadeRef = useRef<HTMLDivElement>(null);
@@ -146,6 +148,36 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
     setY.current(pos.current.y);
   }, [isMobile]);
 
+  useEffect(() => {
+    if (highlightTrigger === 0) return; // 初回マウント時は実行しない
+
+    const cards = rootRef.current?.querySelectorAll("article");
+
+    if (isMobile) {
+      // スマホの場合: クラスを付け外し
+      if (!cards) return;
+      cards.forEach((card) => card.classList.add("is-highlighted"));
+      const timer = setTimeout(() => {
+        cards.forEach((card) => card.classList.remove("is-highlighted"));
+      }, 500); // 0.5秒後にクラスを削除
+      return () => clearTimeout(timer);
+    } else {
+      // PCの場合: fromToを使い、よりクリーンなアニメーションに
+      if (!fadeRef.current) return;
+      gsap.killTweensOf(fadeRef.current); // 既存のアニメーションを強制停止
+      gsap.fromTo(
+        fadeRef.current,
+        { opacity: 0 }, // 開始: 完全にカラー
+        {
+          opacity: 1, // 終了: 完全に白黒
+          duration: 0.5,
+          ease: "power2.out",
+          delay: 0.5, // 0.5秒間カラーの状態を維持
+        }
+      );
+    }
+  }, [highlightTrigger, isMobile]);
+
   const moveTo = (x: number, y: number) => {
     gsap.to(pos.current, {
       x,
@@ -163,10 +195,14 @@ const ChromaGrid: React.FC<ChromaGridProps> = ({
   const handleMove = (e: React.PointerEvent) => {
     const r = rootRef.current!.getBoundingClientRect();
     moveTo(e.clientX - r.left, e.clientY - r.top);
-    gsap.to(fadeRef.current, { opacity: 0, duration: 0.25, overwrite: true });
+    // アニメーション開始前に、必ず既存のアニメーションを強制停止
+    gsap.killTweensOf(fadeRef.current);
+    gsap.to(fadeRef.current, { opacity: 0, duration: 0 });
   };
 
   const handleLeave = () => {
+    // アニメーション開始前に、必ず既存のアニメーションを強制停止
+    gsap.killTweensOf(fadeRef.current);
     gsap.to(fadeRef.current, {
       opacity: 1,
       duration: fadeOut,

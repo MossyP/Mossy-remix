@@ -115,6 +115,8 @@ const categoryStyles: {
 export function Works() {
   const [selectedCategory, setSelectedCategory] = useState<WorkCategory>("All");
   const [selectedWork, setSelectedWork] = useState<Work | null>(null);
+  const [highlightTrigger, setHighlightTrigger] = useState(0);
+  const hasBeenShown = useRef(false);
 
   // アニメーション用
   const [show, setShow] = useState(false);
@@ -123,6 +125,11 @@ export function Works() {
     const observer = new window.IntersectionObserver(
       ([entry]) => {
         setShow(entry.isIntersecting);
+        if (entry.isIntersecting && !hasBeenShown.current) {
+          // 初めて表示されたらハイライトをトリガー
+          setHighlightTrigger((c) => c + 1);
+          hasBeenShown.current = true;
+        }
       },
       {
         threshold: 0,
@@ -130,9 +137,7 @@ export function Works() {
       }
     );
     if (rootRef.current) observer.observe(rootRef.current);
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   // ヘッダーからのカテゴリ選択イベントを監視
@@ -153,6 +158,14 @@ export function Works() {
       );
     };
   }, []);
+
+  // カテゴリ変更時にハイライトをトリガー
+  useEffect(() => {
+    if (hasBeenShown.current) {
+      // 初回表示時との重複を避ける
+      setHighlightTrigger((c) => c + 1);
+    }
+  }, [selectedCategory]);
 
   const filteredWorks = WORKS_DATA.filter(
     (work) => selectedCategory === "All" || work.category === selectedCategory
@@ -256,7 +269,8 @@ export function Works() {
             items={chromaItems}
             onItemClick={handleWorkClick}
             isDark={isDark}
-            radius={550}
+            radius={500}
+            highlightTrigger={highlightTrigger}
           />
         </div>
       </div>
