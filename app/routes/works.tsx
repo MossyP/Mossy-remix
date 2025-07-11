@@ -186,7 +186,7 @@ export function Works() {
     <>
       <div
         ref={rootRef}
-        className="flex items-center pt-8 sm:pt-16 md:pt-24 lg:pt-32 overflow-hidden py-8 sm:py-16 md:py-24"
+        className="pt-8 sm:pt-16 md:pt-24 lg:pt-32 pb-16 sm:pb-32 md:pb-48"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full mb-8 sm:mb-16 md:mb-24">
           {/* タイトル */}
@@ -239,9 +239,11 @@ export function Works() {
           </div>
 
           {/* 作品グリッド */}
-          <div className="relative h-[600px] w-full">
-            <ChromaGrid items={chromaItems} onItemClick={handleWorkClick} />
-          </div>
+          <ChromaGrid
+            items={chromaItems}
+            onItemClick={handleWorkClick}
+            isDark={isDark}
+          />
         </div>
       </div>
 

@@ -11,8 +11,6 @@
   body {
     @apply bg-[#D1D7DA];
   }
-
-  
 }
 
 body[data-theme="dark"] {
@@ -32,5 +30,5 @@ body[data-theme="dark"] .darkmode-header {
   background: #1e2c39 !important;
 }
 body[data-theme="light"] .darkmode-header {
-  background: #D1D7DA !important;
+  background: #d1d7da !important;
 }
