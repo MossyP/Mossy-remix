@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ChromaGrid, { type ChromaItem } from "~/components/ChromaGrid";
 
-type WorkCategory = "3DCG" | "Music" | "MV" | "All";
+type WorkCategory = "3DCG" | "Music" | "Firm" | "Programming" | "All";
 
 type Work = {
   id: string;
@@ -19,25 +19,22 @@ const WORKS_DATA: Work[] = [
   // 3DCG
   {
     id: "1",
-    title: "エレキギターとエフェクターボード",
+    title: "My Guitar",
     category: "3DCG",
     thumbnail: "/public/works/3dcg/guitars.jpg",
     description: "3DCG演習基礎Ⅱ 最終課題",
-    youtubeUrl: "https://www.youtube.com/embed/xxxxx1",
-    date: "2024.01",
-    url: "https://example.com/3dcg-a",
+    date: "2024.12",
   },
   {
     id: "2",
-    title: "3DCG作品B",
-    category: "3DCG",
-    thumbnail: "/work2.jpg",
-    description: "3DCGの作品Bの説明ダミー。",
-    youtubeUrl: "https://www.youtube.com/embed/xxxxx2",
-    date: "2024.02",
-    url: "https://example.com/3dcg-b",
+    title: "ずれ feat.重音テトSV",
+    category: "Music",
+    thumbnail: "/public/works/music/zure.png",
+    description: "【ボカコレ2025冬】にて投稿した作品です",
+    youtubeUrl: "https://www.nicovideo.jp/watch/sm44675193",
+    date: "2025.01",
+    url: "https://www.nicovideo.jp/watch/sm44675193",
   },
-  // Music
   {
     id: "3",
     title: "Music作品A",
@@ -58,26 +55,36 @@ const WORKS_DATA: Work[] = [
     date: "2024.04",
     url: "https://example.com/music-b",
   },
-  // MV
+  // MV -> Firm
   {
     id: "5",
-    title: "MV作品A",
-    category: "MV",
+    title: "Firm作品A",
+    category: "Firm",
     thumbnail: "/work5.jpg",
-    description: "MVの作品Aの説明ダミー。",
+    description: "Firmの作品Aの説明ダミー。",
     youtubeUrl: "https://www.youtube.com/embed/xxxxx5",
     date: "2024.05",
     url: "https://example.com/mv-a",
   },
   {
     id: "6",
-    title: "MV作品B",
-    category: "MV",
+    title: "Firm作品B",
+    category: "Firm",
     thumbnail: "/work6.jpg",
-    description: "MVの作品Bの説明ダミー。",
+    description: "Firmの作品Bの説明ダミー。",
     youtubeUrl: "https://www.youtube.com/embed/xxxxx6",
     date: "2024.06",
     url: "https://example.com/mv-b",
+  },
+  // Programming
+  {
+    id: "7",
+    title: "プログラミング作品A",
+    category: "Programming",
+    thumbnail: "/work7.jpg",
+    description: "プログラミング作品Aの説明です。",
+    date: "2024.08",
+    url: "https://github.com/",
   },
 ];
 
@@ -95,9 +102,13 @@ const categoryStyles: {
     borderColor: "#8B5CF6",
     gradient: "linear-gradient(225deg,#8B5CF6,#000)",
   },
-  MV: {
+  Firm: {
     borderColor: "#EF4444",
     gradient: "linear-gradient(195deg,#EF4444,#000)",
+  },
+  Programming: {
+    borderColor: "#3B82F6",
+    gradient: "linear-gradient(145deg,#3B82F6,#000)",
   },
 };
 
@@ -213,11 +224,12 @@ export function Works() {
               Category :
             </h2>
             <div className="flex flex-wrap gap-2 sm:gap-4">
-              {(["All", "3DCG", "Music", "MV"] as const).map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`
+              {(["All", "3DCG", "Music", "Firm", "Programming"] as const).map(
+                (category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`
                                         px-4 sm:px-6 py-2 rounded-full border-2 border-black text-sm sm:text-base
                                         transition-all duration-150
                                         ${
@@ -226,15 +238,16 @@ export function Works() {
                                             : "hover:bg-black hover:text-white"
                                         }
                                     `}
-                  style={{
-                    opacity: show ? 1 : 0,
-                    transform: show ? "translateX(0)" : "translateX(-60px)",
-                    transition: `all 0.15s cubic-bezier(.16,1,.3,1) 0s`,
-                  }}
-                >
-                  {category}
-                </button>
-              ))}
+                    style={{
+                      opacity: show ? 1 : 0,
+                      transform: show ? "translateX(0)" : "translateX(-60px)",
+                      transition: `all 0.15s cubic-bezier(.16,1,.3,1) 0s`,
+                    }}
+                  >
+                    {category}
+                  </button>
+                )
+              )}
             </div>
           </div>
 
@@ -243,6 +256,7 @@ export function Works() {
             items={chromaItems}
             onItemClick={handleWorkClick}
             isDark={isDark}
+            radius={550}
           />
         </div>
       </div>
