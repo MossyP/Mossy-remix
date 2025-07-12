@@ -21,7 +21,7 @@ const WORKS_DATA: Work[] = [
     id: "1",
     title: "My Guitar",
     category: "3DCG",
-    thumbnail: "/public/Works/3DCG/guitars.jpg",
+    thumbnail: "/Works/3DCG/guitars.jpg",
     description: "3DCG演習基礎Ⅱ 最終課題",
     date: "2024.12",
   },
