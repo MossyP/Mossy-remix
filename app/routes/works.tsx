@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ChromaGrid, { type ChromaItem } from "~/components/ChromaGrid";
 
-type WorkCategory = "3DCG" | "Music" | "Firm" | "Programming" | "All";
+type WorkCategory = "3DCG" | "Music" | "Firm" | "Programming" | "Event" | "All";
 
 type Work = {
   id: string;
@@ -10,13 +10,13 @@ type Work = {
   thumbnail: string;
   description: string;
   youtubeUrl?: string;
+  niconicoUrl?: string;
   imageUrl?: string;
   date: string;
   url?: string;
 };
 
 const WORKS_DATA: Work[] = [
-  // 3DCG
   {
     id: "1",
     title: "My Guitar",
@@ -31,60 +31,76 @@ const WORKS_DATA: Work[] = [
     category: "Music",
     thumbnail: "/public/works/music/zure.png",
     description: "【ボカコレ2025冬】にて投稿した作品です",
-    youtubeUrl: "https://www.nicovideo.jp/watch/sm44675193",
+    niconicoUrl: "https://www.nicovideo.jp/watch/sm44675193",
     date: "2025.01",
     url: "https://www.nicovideo.jp/watch/sm44675193",
   },
   {
     id: "3",
-    title: "Music作品A",
-    category: "Music",
-    thumbnail: "/work3.jpg",
-    description: "Musicの作品Aの説明ダミー。",
-    youtubeUrl: "https://www.youtube.com/embed/xxxxx3",
-    date: "2024.03",
-    url: "https://example.com/music-a",
+    title: "マイノリティ脈絡 ファンメイドMV",
+    category: "Firm",
+    thumbnail: "/public/works/firm/mainori.png",
+    description: "映像制作演習基礎 最終課題",
+    youtubeUrl: "https://www.youtube.com/embed//1jPCM-Q_tn8",
+    date: "2024.02",
   },
   {
     id: "4",
-    title: "Music作品B",
-    category: "Music",
-    thumbnail: "/work4.jpg",
-    description: "Musicの作品Bの説明ダミー。",
-    youtubeUrl: "https://www.youtube.com/embed/xxxxx4",
-    date: "2024.04",
-    url: "https://example.com/music-b",
+    title: "ヤミナベ合作 ファンメイドMV",
+    category: "Firm",
+    thumbnail: "/public/works/firm/yaminabe.png",
+    description: "学内ではじめて合作した映像作品の自分パートです。",
+    youtubeUrl: "https://www.youtube.com/embed/kv4_MuOTeAU",
+    date: "2024.06",
   },
   // MV -> Firm
   {
     id: "5",
-    title: "Firm作品A",
-    category: "Firm",
-    thumbnail: "/work5.jpg",
-    description: "Firmの作品Aの説明ダミー。",
-    youtubeUrl: "https://www.youtube.com/embed/xxxxx5",
+    title: "にゅーげいん Vol.1",
+    category: "Music",
+    thumbnail: "/public/works/music/newgain.png",
+    imageUrl: "/public/works/music/newgain.gif",
+    description: "ニコニコ超会議2025にて頒布したコンピレーションアルバムです",
     date: "2024.05",
-    url: "https://example.com/mv-a",
+    url: "https://www.nicovideo.jp/watch/sm44675193",
   },
   {
     id: "6",
-    title: "Firm作品B",
-    category: "Firm",
-    thumbnail: "/work6.jpg",
-    description: "Firmの作品Bの説明ダミー。",
-    youtubeUrl: "https://www.youtube.com/embed/xxxxx6",
-    date: "2024.06",
-    url: "https://example.com/mv-b",
+    title: "七夕音楽祭2024/2025",
+    category: "Event",
+    thumbnail: "/public/works/event/tanabata.jpg",
+    description: "学内イベントの運営/音響システムの構築などを行いました。",
+    date: "2024.07 / 2025.07",
+    url: "https://note.com/preview/n9406009951ae?prev_access_key=9241186dd0c306aac1f99fd779071ba9",
   },
   // Programming
   {
     id: "7",
-    title: "プログラミング作品A",
+    title: "This Page",
     category: "Programming",
     thumbnail: "/work7.jpg",
-    description: "プログラミング作品Aの説明です。",
-    date: "2024.08",
+    description: "私のポートフォリオサイトです。",
+    date: "2025.07",
     url: "https://github.com/",
+  },
+  {
+    id: "8",
+    title: "一週間で曲作ってみた",
+    category: "Music",
+    thumbnail: "/public/works/music/issyuu.png",
+    description: "私が初めて制作した楽曲です。",
+    date: "2023.03",
+    youtubeUrl: "https://www.youtube.com/embed/m0tHzwPJxRE",
+  },
+  // Event
+  {
+    id: "10",
+    title: "イベント登壇レポート",
+    category: "Event",
+    thumbnail: "/works/event/event_thumbnail.jpg",
+    description: "先日登壇したイベントについてのNote記事です。",
+    date: "2024.11",
+    url: "https://note.com/your_username/n/n1234567890ab", // Note記事のURL
   },
 ];
 
@@ -109,6 +125,10 @@ const categoryStyles: {
   Programming: {
     borderColor: "#3B82F6",
     gradient: "linear-gradient(145deg,#3B82F6,#000)",
+  },
+  Event: {
+    borderColor: "#F59E0B",
+    gradient: "linear-gradient(165deg,#F59E0B,#000)",
   },
 };
 
@@ -237,12 +257,20 @@ export function Works() {
               Category :
             </h2>
             <div className="flex flex-wrap gap-2 sm:gap-4">
-              {(["All", "3DCG", "Music", "Firm", "Programming"] as const).map(
-                (category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`
+              {(
+                [
+                  "All",
+                  "3DCG",
+                  "Music",
+                  "Firm",
+                  "Programming",
+                  "Event",
+                ] as const
+              ).map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`
                                         px-4 sm:px-6 py-2 rounded-full border-2 border-black text-sm sm:text-base
                                         transition-all duration-150
                                         ${
@@ -251,16 +279,15 @@ export function Works() {
                                             : "hover:bg-black hover:text-white"
                                         }
                                     `}
-                    style={{
-                      opacity: show ? 1 : 0,
-                      transform: show ? "translateX(0)" : "translateX(-60px)",
-                      transition: `all 0.15s cubic-bezier(.16,1,.3,1) 0s`,
-                    }}
-                  >
-                    {category}
-                  </button>
-                )
-              )}
+                  style={{
+                    opacity: show ? 1 : 0,
+                    transform: show ? "translateX(0)" : "translateX(-60px)",
+                    transition: `all 0.15s cubic-bezier(.16,1,.3,1) 0s`,
+                  }}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -297,29 +324,52 @@ export function Works() {
             <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8">
               {/* 左側：メディア */}
               <div className="w-full lg:w-2/3">
-                {selectedWork.youtubeUrl ? (
-                  <div className="aspect-video">
-                    <iframe
-                      title={`${selectedWork.title} - YouTube video`}
-                      src={selectedWork.youtubeUrl}
-                      className="w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                ) : selectedWork.imageUrl ? (
-                  <img
-                    src={selectedWork.imageUrl}
-                    alt={selectedWork.title}
-                    className="w-full h-auto rounded-lg"
-                  />
-                ) : (
-                  <img
-                    src={selectedWork.thumbnail}
-                    alt={selectedWork.title}
-                    className="w-full h-auto rounded-lg"
-                  />
-                )}
+                {(() => {
+                  if (selectedWork.niconicoUrl) {
+                    const videoId =
+                      selectedWork.niconicoUrl.split("/watch/")[1];
+                    const embedUrl = `https://embed.nicovideo.jp/watch/${videoId}`;
+                    return (
+                      <div className="aspect-video">
+                        <iframe
+                          title={`${selectedWork.title} - Nicovideo video`}
+                          src={embedUrl}
+                          className="w-full h-full"
+                          allow="autoplay; encrypted-media"
+                          allowFullScreen
+                        />
+                      </div>
+                    );
+                  } else if (selectedWork.youtubeUrl) {
+                    return (
+                      <div className="aspect-video">
+                        <iframe
+                          title={`${selectedWork.title} - YouTube video`}
+                          src={selectedWork.youtubeUrl}
+                          className="w-full h-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    );
+                  } else if (selectedWork.imageUrl) {
+                    return (
+                      <img
+                        src={selectedWork.imageUrl}
+                        alt={selectedWork.title}
+                        className="w-full h-auto rounded-lg"
+                      />
+                    );
+                  } else {
+                    return (
+                      <img
+                        src={selectedWork.thumbnail}
+                        alt={selectedWork.title}
+                        className="w-full h-auto rounded-lg"
+                      />
+                    );
+                  }
+                })()}
               </div>
 
               {/* 右側：情報 */}
